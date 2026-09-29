@@ -1,0 +1,14 @@
+alg_name: "IKE"
+model_name: "google/gemma-3-4b-it"
+sentence_model_name: "sentence-transformers/all-mpnet-base-v2"
+device: 0
+results_dir: "./results"
+k: 1
+hemonc: true
+model_parallel: true
+max_length: 2048
+# Raise from the dataclass default (8192) so k=5 runs (long stacked
+# demonstrations) don't overflow at vLLM engine submit. Gemma-3-4B supports 128k natively.
+vllm_max_model_len: 32768
+max_out_len_closed: 50
+max_out_len_open: 1024

@@ -1,0 +1,96 @@
+defaults:
+  - _self_
+
+
+experiment: ""
+debug: false
+
+editing_method: ''
+base_model: ''
+hparams_dir: ''
+data_dir: 'data'
+ds_size: 0
+ds_seed: 42
+batch_size: 1
+# max_minibatch_size: cap on edits per apply_algo call within a single increment.
+# null → use batch_size as-is (default, preserves old behaviour).
+# integer N → args.batch_size is set to min(N, len(prompts)) at the start of each
+#   increment, so all edits in a small increment go through in one call while large
+#   increments are split into chunks of at most N (prevents OOM on yearly batches).
+max_minibatch_size: null
+seed: 42
+metrics_save_dir: 'metrics'
+
+checkpoint:
+  save: false
+  load: false
+  save_dir: 'checkpoints'
+  # How often to WRITE a model checkpoint (in processed increments).
+  # null  → auto by qa.batching.strategy:
+  #           monthly/quarterly/none = 1, weekly = 2, daily = 10, publication = 20
+  # int N → save every Nth processed increment.
+  # The final increment is always saved regardless of interval (for clean resume).
+  # EVAL runs always write every batch (tiny JSON done-marker, no model).
+  save_interval: null
+  # Fractional milestones in [0, 1]. After each save the saved increments closest
+  # to each milestone are retained, plus the most-recent save for resume.  All
+  # other checkpoint files are pruned from disk.  Set to [] to keep only the
+  # latest.  Defaults retain ~25/50/75/100% snapshots for post-hoc capability
+  # evaluation.
+  keep_milestones: [0.25, 0.5, 0.75, 1.0]
+
+qa:
+  model: 'gpt-3.5-turbo'
+  fs_examples: true
+  past_eval_interval: 0
+  modes:
+    - open
+    - closed
+  modes_combine: mix
+  increments:
+    - "20240201_20240220"
+  filter_edits: false
+  # When true, conflicting groups (same condition/context/endpoint/regimen/comparator
+  # with multiple distinct answers) are deduplicated to their latest update only.
+  filter_conflicting_edits: true
+
+  # ── Debug evaluation flags ──────────────────────────────────────────────────
+  # Set to false to skip portability / locality evaluation entirely.
+  # Useful for fast debug runs where only rewrite_acc matters.
+  eval_portability: true
+  eval_locality: true
+  # When debug: true, metrics are normally not saved.  Set this to true to
+  # save results to metrics/debug/{experiment}/... for post-hoc inspection.
+  save_debug_metrics: false
+
+  past_eval:
+    enabled: false        # master switch; skipped when editing_method == 'EVAL'
+    sentinel_k: 3         # samples drawn from each new batch into the sentinel pool
+    sentinel_max: 150     # max total pool size (random subsample when exceeded)
+    eval_interval: 1      # evaluate sentinel pool every N processed batches (1 = every batch)
+  base_eval:
+    datasets:
+      - squad
+      - triviaqa
+      - commonsenseqa
+    ds_size: 0
+    ds_seed: 42
+    fs_examples: true
+    interval: 0
+
+  # ── Sequential batching configuration ──────────────────────────────────────
+  # When strategy != 'none', qa.increments is ignored and auto-populated at
+  # runtime by build_increments() from hemonc_batching.py.
+  #
+  # strategy options:
+  #   none        → single batch, all rows (default; backward-compatible)
+  #   publication → one batch per unique publication (~3 960 batches post-2000)
+  #   daily       → one batch per calendar date    (~2 274 batches post-2000)
+  #   weekly      → one batch per ISO week         (~1 110 batches post-2000)
+  #   monthly     → one batch per calendar month   (~  305 batches post-2000) ← recommended
+  #   quarterly   → one batch per quarter          (~  100 batches post-2000)
+  #
+  # crop_year: null keeps all years; set to e.g. 2000 to skip sparse early data.
+  batching:
+    strategy: none
+    crop_year: null

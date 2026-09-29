@@ -1,0 +1,14 @@
+alg_name: "BM25RAG"
+model_name: "google/gemma-3-4b-it"
+device: 0
+top_k: 1
+retrieve_target: false
+max_length: 768
+model_parallel: true
+batch_size: 1
+# Raise from the dataclass default (8192) so top_k-10 runs (~26k-token prompts)
+# don't overflow at vLLM engine submit. Gemma-3-4B supports 128k natively.
+vllm_max_model_len: 32768
+
+max_out_len_closed: 50
+max_out_len_open: 1024

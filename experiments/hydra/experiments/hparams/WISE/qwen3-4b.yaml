@@ -1,0 +1,29 @@
+alg_name: "WISE"
+model_name: "Qwen/Qwen3-4B-Instruct-2507"
+device: 0
+
+mask_ratio: 0.2
+edit_lr: 0.2
+n_iter: 100
+norm_constraint: 1.0
+act_ratio: 0.5
+save_freq: 5
+merge_freq: 10
+merge_alg: 'ties'
+objective_optimization: 'only_label'
+inner_params:
+- model.layers[33].mlp.down_proj.weight
+alpha: 0.5
+beta: 5.0
+gamma: 2.0
+
+# for merge (if merge)
+densities: 0.53
+weights: 1.0
+
+# for retrieve (if retrieve, pls set to True)
+retrieve: true
+replay: false
+
+model_parallel: true
+max_length: 768

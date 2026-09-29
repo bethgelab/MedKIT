@@ -1,0 +1,10 @@
+alg_name: "OracleRAG"
+model_name: "ContactDoctor/Bio-Medical-Llama-3-8B"
+device: 0
+retrieve_target: false
+max_length: 768
+model_parallel: true
+batch_size: 1
+
+max_out_len_closed: 50
+max_out_len_open: 1024

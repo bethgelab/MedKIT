@@ -1,0 +1,31 @@
+alg_name: "WISE"
+model_name: "google/medgemma-4b-it"
+device: 0
+
+mask_ratio: 0.2
+edit_lr: 0.1
+n_iter: 100
+norm_constraint: 1.0
+act_ratio: 0.5
+save_freq: 500
+merge_freq: 1000
+merge_alg: 'ties'
+objective_optimization: 'only_label'
+inner_params:
+# Gemma 3 is multimodal: AutoModelForCausalLM returns Gemma3ForConditionalGeneration,
+# so the text transformer sits at model.language_model.layers, not model.layers.
+- model.language_model.layers[31].mlp.down_proj.weight
+alpha: 2.0
+beta: 20.0
+gamma: 10.0
+
+# for merge (if merge)
+densities: 0.53
+weights: 1.0
+
+# for retrieve (if retrieve, pls set to True)
+retrieve: true
+replay: false
+
+model_parallel: true
+max_length: 768

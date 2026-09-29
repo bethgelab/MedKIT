@@ -1,0 +1,6 @@
+# W&B logging. Runs log to W&B only when WANDB_ENTITY is set; otherwise W&B is
+# disabled (see run_medkit.py). WANDB_PROJECT overrides the project name.
+project: ${oc.env:WANDB_PROJECT,medkit-experiments}
+entity: ${oc.env:WANDB_ENTITY,null}
+resume: False
+notes: ''

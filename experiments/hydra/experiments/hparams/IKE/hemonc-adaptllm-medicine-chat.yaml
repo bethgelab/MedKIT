@@ -1,0 +1,11 @@
+alg_name: "IKE"
+model_name: "AdaptLLM/medicine-chat"
+sentence_model_name: "sentence-transformers/all-mpnet-base-v2"
+device: 0
+results_dir: "./results"
+k: 1
+hemonc: true
+model_parallel: true
+max_length: 2048
+max_out_len_closed: 50
+max_out_len_open: 1024

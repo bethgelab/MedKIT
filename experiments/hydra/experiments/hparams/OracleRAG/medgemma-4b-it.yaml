@@ -1,0 +1,10 @@
+alg_name: "OracleRAG"
+model_name: "google/medgemma-4b-it"
+device: 0
+retrieve_target: false
+max_length: 768
+model_parallel: true
+batch_size: 1
+
+max_out_len_closed: 50
+max_out_len_open: 1024

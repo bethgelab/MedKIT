@@ -1,0 +1,12 @@
+# Extra dependencies for the DPO / GRPO trainers (install on top of ../requirements.txt
+# in a separate environment: TRL's DPO/GRPO trainers need a newer PEFT than the
+# pinned editing stack).  Lower bounds come from the APIs the trainers use; the
+# exact versions of the original runs were not recorded.
+trl>=0.14            # GRPOTrainer; DPOTrainer/GRPOTrainer with `processing_class`
+peft>=0.13
+transformers>=4.46
+accelerate
+bitsandbytes         # optim="paged_adamw_8bit"
+datasets
+scikit-learn         # TF-IDF retriever (Agentic-RAG)
+matplotlib

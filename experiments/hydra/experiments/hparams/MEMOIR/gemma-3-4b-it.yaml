@@ -1,0 +1,22 @@
+alg_name: "MEMOIR"
+model_name: "google/gemma-3-4b-it"
+device: 0
+
+edit_lr: 0.5
+n_iter: 50
+objective_optimization: 'only_label'
+inner_params:
+# Gemma 3 is multimodal: AutoModelForCausalLM returns Gemma3ForConditionalGeneration,
+# so the text transformer sits at model.language_model.model.layers, not model.layers.
+- model.language_model.layers[28].mlp.down_proj.weight
+
+# MEMOIR-specific
+top_k: 4096
+irr_threshold: 0.2
+prompt_feature_agg: 'mean_decentered'
+dir_background_features: "./data/memoir_features/gemma-3-4b-it.pt"
+RUN_SAVE_BACKGROUND_FEATURES: false
+dir_to_save_background_features: "./data/memoir_features/gemma-3-4b-it.pt"
+
+model_parallel: false
+max_length: 768

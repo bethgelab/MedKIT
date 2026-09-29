@@ -1,0 +1,20 @@
+alg_name: "OracleRAG"
+# OpenRouter model ID. Update if pinning to a specific snapshot
+# (e.g. "anthropic/claude-opus-4.1") — the unversioned alias points
+# to the latest production Opus.
+model_name: "anthropic/claude-opus-4.1"
+device: 0          # ignored on the OpenRouter path; kept for API symmetry
+retrieve_target: false
+max_length: 16384  # generous — Opus-4 supports 200k context, abstracts fit easily
+model_parallel: false
+
+# Extended thinking — enabled to give the strongest possible "model
+# utilization" baseline (with oracle retrieval, can the strongest LM
+# solve it given enough thinking compute?).  3000 is a defensible
+# middle ground for closed-form classification: enough room to reason
+# through the evidence without burning Opus-4.1's premium output
+# pricing on excessive deliberation.  Min allowed by Anthropic is 1024.
+thinking_budget_tokens: 3000
+
+max_out_len_closed: 50
+max_out_len_open: 1024

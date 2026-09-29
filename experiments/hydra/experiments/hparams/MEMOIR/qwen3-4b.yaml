@@ -1,0 +1,20 @@
+alg_name: "MEMOIR"
+model_name: "Qwen/Qwen3-4B-Instruct-2507"
+device: 0
+
+edit_lr: 0.5
+n_iter: 50
+objective_optimization: 'only_label'
+inner_params:
+- model.layers[30].mlp.down_proj.weight
+
+# MEMOIR-specific
+top_k: 4096
+irr_threshold: 0.2
+prompt_feature_agg: 'mean_decentered'
+dir_background_features: "./data/memoir_features/qwen3-4b.pt"
+RUN_SAVE_BACKGROUND_FEATURES: false
+dir_to_save_background_features: "./data/memoir_features/qwen3-4b.pt"
+
+model_parallel: false
+max_length: 768
