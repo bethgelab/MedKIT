@@ -6,7 +6,7 @@
 Official code for **MedKIT: Evaluating Knowledge Integration and
 Generalization in Large Language Models**, accepted to the
 **NeurIPS 2026 Evaluations & Datasets Track**
-([paper](https://arxiv.org/abs/XXXX.XXXXX)).
+([paper](https://arxiv.org/abs/2609.38543)).
 
 MedKIT is a benchmark for evaluating how language models integrate and
 apply new knowledge under realistic sequences of clinical updates. This
