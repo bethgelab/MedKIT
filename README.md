@@ -1,6 +1,6 @@
 # MedKIT
 
-[![Paper](https://img.shields.io/badge/arXiv-XXXX.XXXXX-b31b1b.svg)](https://arxiv.org/abs/XXXX.XXXXX)
+[![Paper](https://img.shields.io/badge/arXiv-2609.38543-b31b1b.svg)](https://arxiv.org/abs/2609.38543)
 [![Dataset](https://img.shields.io/badge/%F0%9F%A4%97%20Dataset-MedKIT-yellow)](https://huggingface.co/datasets/bethgelab/MedKIT)
 
 Official code for **MedKIT: Evaluating Knowledge Integration and
